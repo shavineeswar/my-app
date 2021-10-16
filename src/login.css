@@ -1,0 +1,40 @@
+.login{
+    padding-top:3%;
+  }
+  
+  
+  .box {
+    
+    width:30%;
+    background-color: #dee6de;
+    border-radius: 12px;
+    padding: 50px;
+      
+  } 
+  .form-control{
+    width: 80%; 
+    background-color: #919991; 
+    margin: 10px;; 
+  }
+  
+  .loginhead{
+    color: #1A4AA7;
+    margin-top: 40px;
+  }
+  
+  .loginbtn{
+    text-align: center;
+    background-color: #169a0b;
+    color: antiquewhite;
+    border-radius: 12px;
+    width: 130px;
+    height: 35px;
+    margin: 20px;
+  }
+  .form-group{
+    margin: 10px;
+    }
+  
+  .createaccount{
+    margin: 10px;
+  }

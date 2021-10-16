@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../landingpage/fonts/26301410506.ttf') ;
+  }
+  
+.body{
+    background-color: #d8daece1;
+}
+
+.head{
+    font-family: 'Avenir', Helvetica, sans-serif;
+    font-weight: bold;
+}
