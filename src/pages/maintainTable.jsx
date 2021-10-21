@@ -50,7 +50,7 @@ class AdvFilter extends React.Component {
   }
 
   componentDidMount(){
-    axios.get('http://localhost:8089/assert/getall')
+    axios.get('http://localhost:8089/asset/getall')
     .then(response => {
       console.log(response.data.data )
       this.setState({assert :response.data.data})

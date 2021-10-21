@@ -17,7 +17,7 @@ export default class LandingPage extends Component {
                 <Container>
                     <Row>
                         <Col><Card heading="User Management" url="https://www.kindpng.com/picc/m/144-1447110_free-organize-png-management-of-change-icon-transparent.png" direct="/assert" /></Col>
-                        <Col><Card heading="Alert Management" url="https://c8.alamy.com/zooms/9/fe89b442ff8c4cc39c3678230fd08c1b/2bwj1cf.jpg" direct="/assert" /></Col>
+                        <Col><Card heading="Alert Management" url="https://c8.alamy.com/zooms/9/fe89b442ff8c4cc39c3678230fd08c1b/2bwj1cf.jpg" direct="/alert" /></Col>
                         <Col><Card heading="Asset Management" url="https://thumbs.dreamstime.com/b/inventory-management-line-icon-vector-illustration-sign-isolated-contour-symbol-black-206722126.jpg" direct="/asset" /></Col>
                     </Row>
                     <Row>

@@ -19,8 +19,8 @@ class card extends Component {
     return (
         
       <div class="cards-list" >
-        <a href={this.state.direct}>
-      <div class="card 1" >
+        <a href={this.state.direct} style={{textDecoration:'none'}}>
+      <div class="cardl 1" >
         <div class="card_image" align="center"> <img src={this.state.icon} /> </div>
         <div class="card_title title-white">
           <p>{this.state.heading}</p>

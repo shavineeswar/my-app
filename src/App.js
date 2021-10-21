@@ -4,11 +4,12 @@ import Table from './pages/maintainTable'
 import CSV from './pages/csvUpload'
 import card from './components/landingpage/cardviews'
 import LandingPage from './pages/LandingPage'
-import Dropdown from './pages/addAssert'
+import Dropdown from './pages/addAsset'
 import Auth from './components/landingpage/loginAuth'
 import { Auth0Provider } from '@auth0/auth0-react'
 import Assetdirect from './components/landingpage/assetdirect'
-
+import Allasset from './components/alertmanagement/getAsset'
+import Alertasset from './components/alertmanagement/editalert'
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/table" component={Table} exact />
         <Route path="/drop" component={Dropdown} exact />
         <Route path="/asset" component={Assetdirect} exact />
+        <Route path="/alert" component={Allasset} exact />
+        <Route path="/alert/edit/:id" component={Alertasset} exact />
         
           {/* <Route path="/login" component={Login} exact /> */}
           

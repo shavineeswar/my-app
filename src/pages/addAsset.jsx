@@ -131,7 +131,7 @@ function Form() {
 
         // try{
         //     const token =  getAccessTokenSilently();
-        //     const response =  axios.post('http://localhost:9999/assert/create',newAssert,{
+        //     const response =  axios.post('http://localhost:8089/assert/create',newAssert,{
         //         headers:{
         //             authorization:`Bearer ${token}`
         //         },
@@ -143,7 +143,7 @@ function Form() {
         // }
 
         console.log(newAssert);
-        axios.post("http://localhost:8089/assert/create", newAssert)
+        axios.post("http://localhost:8089/asset/create", newAssert)
             .then(response => {
                 alert("Assert Added")
             }).catch((err) => {
