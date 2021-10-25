@@ -48,7 +48,7 @@ const vectorData = [
 
 
 function Form() {
-
+    // const [AssetId, setAssetId] = useState("");
     const [TypeCategory1, setTypeCategory1] = useState("");
     const [TypeCategory2, setTypeCategory2] = useState('');
     const [NameofSpecification, setNameofSpecification] = useState('');
@@ -72,8 +72,6 @@ function Form() {
     const [CoollingMethod4, setCoollingMethod4] = useState('');
 
     // const {loginWithPopup,loginWithRedirect,logout,user,isAuthenticated,getAccessTokenSilently} = useAuth0()
-
-
 
     const [{ country, state }, setData] = useState({
         country: "0",
@@ -99,6 +97,15 @@ function Form() {
     function handleStateChange(event) {
         setData(data => ({ ...data, state: event.target.value }));
     }
+
+    // function afterSubmit(){
+        
+    //     console.log(newAlert);
+
+        
+
+
+    // }
 
 
     function onSubmit(e) {
@@ -141,21 +148,58 @@ function Form() {
         // }catch(error){
         //     console.log(error.message);
         // }
-
+         
         console.log(newAssert);
         axios.post("http://localhost:8089/asset/create", newAssert)
             .then(response => {
+                
+                const assetID = response.data.data._id 
+                console.log(response.data.data._id);
+
+                const current = new Date();
+                const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+                
+                console.log(assetID);
+                                
+                const newAlert={
+                    assetId: assetID,
+                    assetName : TypeCategory1,
+                    date:date,
+                    period:'6',
+                    alert1:'6',
+                    alert2:'3',
+                    alert3:'',
+                    alert4:'',
+                }    
+
+                console.log(newAlert);
+                
+                axios.post("http://localhost:8089/alert/create", newAlert)
+            .then(response => {              
                 alert("Assert Added")
             }).catch((err) => {
                 alert(err)
             })
 
+                alert("Assert Added")
+                
+            }).catch((err) => {
+                alert(err)
+            })
+            // console.log(assetID)
+
+       
+        
     }
+
+
+
+    
 
     return (
         <div class="container">
                 <h1>Add Asset Details</h1>
-            <form >
+            <form  >
                 <div class="form-group">
 
                     <label class="form-label">Type Category 1</label>
