@@ -21,7 +21,7 @@ export default class LandingPage extends Component {
                         <Col><Card heading="Asset Management" url="https://thumbs.dreamstime.com/b/inventory-management-line-icon-vector-illustration-sign-isolated-contour-symbol-black-206722126.jpg" direct="/asset" /></Col>
                     </Row>
                     <Row>
-                        <Col><Card heading="Work Order" url="https://www.pngitem.com/pimgs/m/280-2801411_work-order-management-svg-png-work-order-icon.png" direct="/assert" /></Col>
+                        <Col><Card heading="Work Order" url="https://www.pngitem.com/pimgs/m/280-2801411_work-order-management-svg-png-work-order-icon.png" direct="/workorder" /></Col>
                         <Col><Card heading="Scheduling" url="https://thumbs.dreamstime.com/b/stay-home-calendar-icon-schedule-isolated-white-background-flat-design-vector-illustration-207789473.jpg" direct="/assert" /></Col>
                         <Col><Card heading="Reporting" url="https://thumbs.dreamstime.com/b/report-icon-vector-isolated-white-background-sign-l-transparent-line-linear-symbol-design-outline-style-133757735.jpg" direct="/assert" /></Col>
                     </Row>

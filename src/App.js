@@ -10,6 +10,10 @@ import { Auth0Provider } from '@auth0/auth0-react'
 import Assetdirect from './components/landingpage/assetdirect'
 import Allasset from './components/alertmanagement/getAsset'
 import Alertasset from './components/alertmanagement/editalert'
+import WorkorderAssets from './components/workorder/getAllAsset'
+import Workorder from './components/workorder/workOderforAsset'
+import AddWorkorder from './components/workorder/addworkorder'
+import Blog from './components/blog/bolg'
 
 function App() {
   return (
@@ -23,6 +27,10 @@ function App() {
         <Route path="/asset" component={Assetdirect} exact />
         <Route path="/alert" component={Allasset} exact />
         <Route path="/alert/edit/:id" component={Alertasset} exact />
+        <Route path="/workorder" component={WorkorderAssets} exact />
+        <Route path="/workorder/:id" component={Workorder} exact />
+        <Route path="/addworkorder/:id" component={AddWorkorder} exact />
+        <Route path="/blog" component={Blog} exact />
         
           {/* <Route path="/login" component={Login} exact /> */}
           

@@ -98,14 +98,6 @@ function Form() {
         setData(data => ({ ...data, state: event.target.value }));
     }
 
-    // function afterSubmit(){
-        
-    //     console.log(newAlert);
-
-        
-
-
-    // }
 
 
     function onSubmit(e) {
