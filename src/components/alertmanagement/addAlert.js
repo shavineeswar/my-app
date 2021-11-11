@@ -37,6 +37,7 @@ class alert extends Component {
 
     render() {
         return (
+            <form>
             <div className="container">
                 <h1>Edit Asset Alert Schedule</h1>
                 <div>
@@ -95,8 +96,11 @@ class alert extends Component {
                     </select>
                 </div>
 
-
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" onClick={onSubmit}>Submit</button>
+                </div>
             </div>
+            </form>
         );
     }
 }

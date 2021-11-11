@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './card.css'
-import img from '../../photo.jpeg'
+
 
 
 class assetDirect extends Component {

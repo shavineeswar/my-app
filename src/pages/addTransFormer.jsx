@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import axios from "axios"
 // import {useAuth0} from '@auth0/auth0-react'
 
@@ -70,6 +70,7 @@ function Form() {
     const [CoollingMethod2, setCoollingMethod2] = useState('');
     const [CoollingMethod3, setCoollingMethod3] = useState('');
     const [CoollingMethod4, setCoollingMethod4] = useState('');
+    const [Count, setCount] = useState('');
 
     // const {loginWithPopup,loginWithRedirect,logout,user,isAuthenticated,getAccessTokenSilently} = useAuth0()
 
@@ -98,6 +99,17 @@ function Form() {
         setData(data => ({ ...data, state: event.target.value }));
     }
 
+    
+
+    
+    useEffect(() => {
+        axios.get(`http://localhost:8089/asset/`)
+        .then(response =>{
+          console.log('Asset',response.data)
+          setCount(response.data.data)
+        })
+    
+        }, [])
 
 
     function onSubmit(e) {
@@ -107,6 +119,7 @@ function Form() {
         const Cool = CoollingMethod1 + CoollingMethod2 + CoollingMethod3 + CoollingMethod4;
 
         const newAssert = {
+            Type:"Transformer",
             TypeCategory1,
             TypeCategory2,
             NameofSpecification,
@@ -178,15 +191,10 @@ function Form() {
             }).catch((err) => {
                 alert(err)
             })
-            // console.log(assetID)
 
        
         
     }
-
-
-
-    
 
     return (
         <div class="container">

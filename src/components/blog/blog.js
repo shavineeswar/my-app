@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useEffect, useState }from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,6 +14,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import Pagination from '@material-ui/lab/Pagination';
+import axios from 'axios';
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -63,8 +65,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function App() {
+
+function Blog() {
   const classes = useStyles();
+
+  const [Blog, setBlog] = useState("");
+
+  function navigateSubjectPage(e, blogId) {
+    window.location = `/blog/${blogId}`
+  }
+  
+
+  useEffect(() => {
+   
+    axios.get('http://localhost:8089/blog/getall')
+    .then(response =>{
+      console.log('ALL Blog',response.data)
+     setBlog(response.data.data)
+    })
+
+    }, [])
+
 
   return (
     <div className="App">
@@ -83,33 +104,33 @@ function App() {
           Articles
         </Typography>
         <Grid container spacing={3}>
+        {Blog.length > 0 && Blog.map((item,index) =>(
           <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
+            <Card  key={index} className={classes.card} onClick={e => navigateSubjectPage(e, item._id)}>
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image="https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                  image={item.PhotoLink}
                   title="Contemplative Reptile"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
-                    React useContext
+                    {item.Title}
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                    across all continents except Antarctica
+                   {item.Subject}
                   </Typography>
                 </CardContent>
               </CardActionArea>
               <CardActions className={classes.cardActions}>
                 <Box className={classes.author}>
-                  <Avatar src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                  <Avatar  />
                   <Box ml={2}>
                     <Typography variant="subtitle2" component="p">
-                      Guy Clemons
+                      {item.Writer}
                     </Typography>
                     <Typography variant="subtitle2" color="textSecondary" component="p">
-                      May 14, 2020
+                      {item.Dateofpost}
                     </Typography>
                   </Box>
                 </Box>
@@ -118,8 +139,9 @@ function App() {
                 </Box>
               </CardActions>
             </Card>
+             
           </Grid>
-         
+            ))}
         </Grid>
         
         <Box my={4} className={classes.paginationContainer}>
@@ -130,4 +152,4 @@ function App() {
   );
 }
 
-export default App;
+export default Blog;
