@@ -19,7 +19,7 @@ export default function FileSystemNavigator() {
    
         axios.get('http://localhost:8089/asset/getall')
         .then(response =>{
-          console.log('ALL Blog',response.data)
+          console.log('ALL asset',response.data)
           setAsset(response.data.data)
         })
     
@@ -35,7 +35,7 @@ export default function FileSystemNavigator() {
       <TreeItem nodeId="1" label="Transformers">
       {Asset.length > 0 && Asset.map((item,index) =>(
           <div key={index} onClick={e => navigateSubjectPage(e, item._id)}>
-        <TreeItem nodeId="2" label={item.TypeCategory1}   />
+        <TreeItem nodeId="2" label={item.Name}   />
         </div>
       ))}
       </TreeItem>

@@ -11,15 +11,15 @@ import Assetdirect from './components/landingpage/assetdirect'
 import Allasset from './components/alertmanagement/getAsset'
 import Alertasset from './components/alertmanagement/editalert'
 import Showalert from './components/alertmanagement/showalert'
-import WorkorderAssets from './components/workorder/getAllAsset'
-import Workorder from './components/workorder/workOderforAsset'
-import AddWorkorder from './components/workorder/addworkorder'
+import WorkorderAssets from './components/Internalworkorder/getAllAsset'
+import Workorder from './components/Internalworkorder/workOderforAsset'
+import AddWorkorder from './components/Internalworkorder/addworkorder'
 import Blog from './components/blog/blog'
 import Addblog from './components/blog/addblog'
 import Oneblogpost from './components/blog/blogContent'
 import Tree from './components/asset/tressStructure'
 import Oneasset from './components/asset/oneAsset'
-
+import AssetPage from './pages/assetPage'
 
 function App() {
   return (
@@ -41,7 +41,8 @@ function App() {
         <Route path="/addblog" component={Addblog} exact />
         <Route path="/blog/:id" component={Oneblogpost} exact />
         <Route path="/tree" component={Tree} exact />
-        <Route path="/asset/:id" component={Oneasset} exact />
+        <Route path="/asset/:id" component={AssetPage} exact />
+        <Route path="/one" component={AssetPage} exact />
 
           {/* <Route path="/login" component={Login} exact /> */}
           

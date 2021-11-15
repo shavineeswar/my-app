@@ -1,27 +1,53 @@
-import { useEffect, useState }from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { useParams } from 'react-router-dom';
 
 
 
 export default function OneAssetDetails(props) {
 
+
     const [Asset, setAsset] = useState("");
 
-    
-    useEffect(() => {
-        axios.get(`http://localhost:8089/asset/${props.match.params.id}`)
-        .then(response =>{
-          console.log('Asset',response.data)
-          setAsset(response.data.data)
-        })
-    
-        }, [])
+    const id = useParams()
+    // const [parameter, setparameter] = useState("");
+    console.log(id.id)
 
-  return (
-    <div className="container">
-            
-            <h1>{Asset.TypeCategory1}</h1>
+    function navigateSubjectPage(e, assetId) {
+        window.location = `/addTest/${assetId}`
+      }
+
+
+    useEffect(() => {
+        if (id == null) {
+            const parameter = 0
+
+            axios.get(`http://localhost:8089/asset/${id.id}`)
+                .then(response => {
+                    console.log('Asset', response.data)
+                    setAsset(response.data.data)
+                })
+        }
+
+        else {
+            const parameter = id
+
+            axios.get(`http://localhost:8089/asset/${id.id}`)
+                .then(response => {
+                    console.log('Asset', response.data)
+                    setAsset(response.data.data)
+                })
+        }
+
+
+    }, [])
+
+
+
+    return (
+        <div className="container">
+            <h1>{Asset.Name}</h1>
+            <h5>{Asset.TypeCategory1}</h5>
             <h5>{Asset.TypeCategory2}</h5>
             <h5>{Asset.NameofSpecification} </h5>
             <h5>{Asset.Numberofphases1} </h5>
@@ -40,10 +66,7 @@ export default function OneAssetDetails(props) {
             <h5>{Asset.TCType} </h5>
             <h5>{Asset.TCTapNumber1} </h5>
             <h5>{Asset.Cool} </h5>
-                         
-           
+        </div>
+    );
 
-       
-          </div>
-  );
 }

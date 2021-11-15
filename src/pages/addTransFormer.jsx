@@ -103,7 +103,7 @@ function Form() {
 
     
     useEffect(() => {
-        axios.get(`http://localhost:8089/asset/`)
+        axios.get(`http://localhost:8089/asset/count`)
         .then(response =>{
           console.log('Asset',response.data)
           setCount(response.data.data)
@@ -117,9 +117,10 @@ function Form() {
 
         const VectorGroup = country + "-" + state;
         const Cool = CoollingMethod1 + CoollingMethod2 + CoollingMethod3 + CoollingMethod4;
-
+        const name = Count+1
         const newAssert = {
             Type:"Transformer",
+            Name:`Tranformer ${name} `,
             TypeCategory1,
             TypeCategory2,
             NameofSpecification,
