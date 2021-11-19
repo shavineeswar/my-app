@@ -1,7 +1,7 @@
 import React from 'react';
 import MUIDataTable, { TableBodyCell, TableBodyRow } from 'mui-datatables';
 import axios from "axios"
-
+import SideNav from '../components/report/tile'
 
 class AdvFilter extends React.Component {
   state = {
@@ -42,19 +42,22 @@ class AdvFilter extends React.Component {
       page:1
     };
     return (
+      <div>
+          <SideNav/>
       <div className="row bg-secondary bg-opacity-10">
-            <div className="col col-lg-1"></div>
+            <div className="col col-sm-1"></div>
             <div className="col mb-2 ">
               <div className="m-3 ">
               <h3 align="center" ></h3>
               <MUIDataTable
-                title="Assets"
+                title="Tranfromers"
                 data={data}
                 columns={header}
                 options={options}
             />
             </div>
             </div>
+          </div>
           </div>
 
     );

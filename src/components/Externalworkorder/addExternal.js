@@ -18,7 +18,9 @@ function Form() {
 
         const current = new Date();
         const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+        const temp = "externalworkorder"
         const id = useParams()
+        
 
         const newExternal = {
             AssetId:id.id,
@@ -29,10 +31,25 @@ function Form() {
             Test,
             Comments
         }
+
+        const newmail = {
+            Email,
+            Name,
+            temp
+
+        }
+
         console.log(newExternal);
         axios.post("http://localhost:8089/externalwork/create", newExternal)
             .then(response => {
-                alert("Blog posted suceesfully")
+                
+            }).catch((err) => {
+                alert(err)
+            })
+
+            axios.post("http://localhost:8089//api/sendMail", newmail)
+            .then(response => {
+                alert("Reported suceesfully....Please check your mail")
             }).catch((err) => {
                 alert(err)
             })

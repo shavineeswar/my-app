@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component } from "react";
 import axios from "axios"
 import Select, { components } from 'react-select'
 // import {useAuth0} from '@auth0/auth0-react'
@@ -27,8 +27,6 @@ class AddWorkOrder extends Component {
     }
 
     // const {loginWithPopup,loginWithRedirect,logout,user,isAuthenticated,getAccessTokenSilently} = useAuth0()
-
-
 
 
     componentDidMount() {
@@ -86,6 +84,7 @@ class AddWorkOrder extends Component {
                 alert(err)
             })
 
+            window.location = `/asset/${this.props.match.params.id}`
     }
 
 
@@ -108,11 +107,8 @@ class AddWorkOrder extends Component {
                     </div>
 
                     <div class="form-group">
-
                         <label class="form-label">Person</label>
                         <Select options={this.state.option} onChange={this.onPersonSelect} isMulti/>
-
-
                     </div>
 
                     <div class="form-group">

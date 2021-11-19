@@ -20,6 +20,10 @@ import Oneblogpost from './components/blog/blogContent'
 import Tree from './components/asset/tressStructure'
 import Oneasset from './components/asset/oneAsset'
 import AssetPage from './pages/assetPage'
+import Num from './components/Internalworkorder/oneinternalworkorder'
+import Tile from './components/report/tile'
+import Catetagory from './components/marketplace/CartScreen'
+
 
 function App() {
   return (
@@ -34,8 +38,8 @@ function App() {
         <Route path="/alert" component={Allasset} exact />
         <Route path="/alert/:id" component={Showalert} exact />
         <Route path="/alert/edit/:id" component={Alertasset} exact />
-        <Route path="/workorder" component={WorkorderAssets} exact />
-        <Route path="/workorder/:id" component={Workorder} exact />
+        {/* <Route path="/workorder" component={WorkorderAssets} exact />
+        <Route path="/workorder/:id" component={Workorder} exact /> */}
         <Route path="/addworkorder/:id" component={AddWorkorder} exact />
         <Route path="/blog" component={Blog} exact />
         <Route path="/addblog" component={Addblog} exact />
@@ -43,6 +47,9 @@ function App() {
         <Route path="/tree" component={Tree} exact />
         <Route path="/asset/:id" component={AssetPage} exact />
         <Route path="/one" component={AssetPage} exact />
+        <Route path="/internal/:id" component={Num} exact />
+        <Route path="/tile" component={Tile} exact />
+        <Route path="/cate" component={Catetagory} exact />
 
           {/* <Route path="/login" component={Login} exact /> */}
           
