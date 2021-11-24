@@ -1,50 +1,95 @@
 import * as React from 'react';
-import TreeView from '@material-ui/lab/TreeView';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TreeItem from '@material-ui/lab/TreeItem';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useEffect, useState }from 'react';
+import TreeView from '@material-ui/lab/TreeView';
+import TreeItem from '@material-ui/lab/TreeItem';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Oneasset from '../asset/oneAsset'
+import Oneinternalworkorder from '../Internalworkorder/oneinternalworkorder'
 
 
-export default function FileSystemNavigator() {
+export default function ControlledTreeView() {
+  const [expanded, setExpanded] = React.useState([]);
+  const [selected, setSelected] = React.useState([]);
+  const [Asset, setAsset] = useState("");
 
-    const [Asset, setAsset] = useState("");
+  const handleToggle = (event, nodeIds) => {
+    setExpanded(nodeIds);
+  };
 
-    function navigateSubjectPage(e, assetId) {
-        window.location = `/asset/${assetId}`
-      }
+  const handleSelect = (event, nodeIds) => {
+    setSelected(nodeIds);
+  };
 
-    useEffect(() => {
-   
-        axios.get('http://localhost:8089/asset/getall')
-        .then(response =>{
-          console.log('ALL asset',response.data)
-          setAsset(response.data.data)
-        })
-    
-        }, [])
+  const handleExpandClick = () => {
+    setExpanded((oldExpanded) =>
+      oldExpanded.length === 0 ? ['1', '5', '6', '7'] : [],
+    );
+  };
+
+  const handleSelectClick = () => {
+    setSelected((oldSelected) =>
+      oldSelected.length === 0 ? ['1', '2', '3', '4', '5', '6', '7', '8', '9'] : [],
+    );
+  };
+  function navigateSubjectPage(e, assetId) {
+    window.location = `/asset/${assetId}`
+
+  }
+
+  useEffect(() => {
+
+    axios.get('http://localhost:8089/asset/getall')
+      .then(response => {
+        console.log('ALL asset', response.data)
+        setAsset(response.data.data)
+      })
+
+
+  }, [])
 
   return (
-    <TreeView
-      aria-label="file system navigator"
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      sx={{ height: 240, flexGrow: 1, maxWidth: 300, overflowY: 'auto' }}
-    >
-      <TreeItem nodeId="1" label="Transformers">
-      {Asset.length > 0 && Asset.map((item,index) =>(
-          <div key={index} onClick={e => navigateSubjectPage(e, item._id)}>
-        <TreeItem nodeId="2" label={item.Name}   />
-        </div>
-      ))}
-      </TreeItem>
-      <TreeItem nodeId="5" label="Documents">
-        <TreeItem nodeId="10" label="OSS" />
-        <TreeItem nodeId="6" label="MUI">
-          <TreeItem nodeId="8" label="index.js" />
+    <>
+    <Box sx={{ height: 270, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}>
+      <Box sx={{ mb: 1 }}>
+        <Button onClick={handleExpandClick}>
+          {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
+        </Button>
+        <Button onClick={handleSelectClick}>
+          {selected.length === 0 ? 'Select all' : 'Unselect all'}
+        </Button>
+      </Box>
+      <TreeView
+        aria-label="controlled"
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+        expanded={expanded}
+        selected={selected}
+        onNodeToggle={handleToggle}
+        onNodeSelect={handleSelect}
+        multiSelect
+      >
+        <TreeItem nodeId="1" label="Transfromers">
+          {Asset.length > 0 && Asset.map((item, index) => (
+            <TreeItem key={index} onClick={e => navigateSubjectPage(e, item._id)}  nodeId={(index+1)} label={item.Name}>
+            </TreeItem>
+          ))}
         </TreeItem>
-      </TreeItem>
-    </TreeView>
+        <TreeItem nodeId="5" label="Documents">
+          <TreeItem nodeId="6" label="MUI" >
+            <TreeItem nodeId="7" label="src">
+              <TreeItem nodeId="8" label="index.js" />
+              <TreeItem nodeId="9" label="tree-view.js"/>
+            </TreeItem>
+          </TreeItem>
+        </TreeItem>
+      </TreeView>
+    </Box>
+
+     
+    </>
   );
 }

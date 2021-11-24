@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Treestruc from '../components/asset/tressStructure'
 import Oneasset from '../components/asset/oneAsset'
-import Oneinternalworkorder from '../components/Internalworkorder/oneinternalworkorder'
+import Oneinternalworkorder from '../components/Internalworkorder/testfront'
 import "../components/asset/tree.css"
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -70,7 +70,7 @@ export default function BasicTabs() {
                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
                                         <Tab label="Asset Details" {...a11yProps(0)} />
-                                        <Tab label="Test Details" {...a11yProps(1)} />
+                                        <Tab label="Maintenace Details" {...a11yProps(1)} />
 
                                     </Tabs>
                                 </Box>

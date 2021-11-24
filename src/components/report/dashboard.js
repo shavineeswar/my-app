@@ -3,27 +3,22 @@ import axios from 'axios';
 import PieChart from './piechart'
 import LineChart from './linechart/linechart'
 import ScatterChart from './scatter/scatterChart'
-
+import './dashboard.css'
 
 
 function dashboard() {
 
-
-
-
-
     return (
         <div>
-            <div className='row'>
-            <PieChart/>
-            <hr/>
-            <LineChart/>
-            <hr/>
-            </div>
 
-            <div className='row'>
-            <ScatterChart/>
-            </div>
+            
+                <ScatterChart />
+           
+            
+                
+                            <PieChart />
+                       
+                            <LineChart />
 
         </div>
 

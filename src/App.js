@@ -23,7 +23,9 @@ import AssetPage from './pages/assetPage'
 import Num from './components/Internalworkorder/oneinternalworkorder'
 import Tile from './components/report/tile'
 import Catetagory from './components/marketplace/CartScreen'
+import TestFront from './components/Internalworkorder/testfront'
 
+// import AddProduct from './components/marketplace/product/addproduct'
 
 function App() {
   return (
@@ -50,7 +52,9 @@ function App() {
         <Route path="/internal/:id" component={Num} exact />
         <Route path="/tile" component={Tile} exact />
         <Route path="/cate" component={Catetagory} exact />
+        <Route path="/testfront" component={TestFront} exact />
 
+        {/* <Route path="/addproduct" component={AddProduct} exact /> */}
           {/* <Route path="/login" component={Login} exact /> */}
           
           <Auth0Provider
