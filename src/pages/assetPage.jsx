@@ -8,6 +8,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Sidenav from '../components/navigation/sidenav'
+
 
 
 function TabPanel(props) {
@@ -52,18 +54,20 @@ export default function BasicTabs() {
     
         return (
             <div>
-                <br />
 
                 <div className="row">
+                    <div class="col col-lg-2"> <Sidenav/> </div>
 
+                    
                     <div className="col col-lg-2 offset-md-0">
                         <div class="container">
+                            <br/>
                             <Treestruc />
                         </div>
                     </div>
 
 
-                    <div class="col-md-10 offset-md-2.5">
+                    <div class="col-md-7 offset-md-2.5">
                         <div class="container">
 
                             <Box sx={{ width: '100%' }}>
@@ -86,7 +90,7 @@ export default function BasicTabs() {
                             </Box>
                         </div>
                     </div>
-
+                    
                 </div>
             </div>
 

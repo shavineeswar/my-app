@@ -12,7 +12,7 @@
     width: 100%;
   }
   
-  .column {
+  .col {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;

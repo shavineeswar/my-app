@@ -23,6 +23,8 @@ class workOrderforasset extends Component {
         console.log('ALL ASSET',response.data.data)
         this.setState({perosn : response.data.data})
       })
+
+      
   }
 
   navigateAddWorkorderpagee(e, assetId) {

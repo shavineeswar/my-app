@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../landingpage/fonts/26301410506.ttf') ;
+  }
+
+.tabs{
+    
+    font-size: 15px;
+    font-family:'Avenir', Helvetica, sans-serif;
+    border-style: groove;
+    margin: 5px; 
+    text-align: center;
+    box-shadow: 3px 3px 3px #444;
+    border-radius: 10px;
+    
+}   
+
+.active, .tabs:hover{
+    color: black;
+} 

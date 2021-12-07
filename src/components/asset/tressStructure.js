@@ -53,43 +53,36 @@ export default function ControlledTreeView() {
 
   return (
     <>
-    <Box sx={{ height: 270, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}>
-      <Box sx={{ mb: 1 }}>
-        <Button onClick={handleExpandClick}>
-          {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
-        </Button>
-        <Button onClick={handleSelectClick}>
-          {selected.length === 0 ? 'Select all' : 'Unselect all'}
-        </Button>
-      </Box>
-      <TreeView
-        aria-label="controlled"
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        expanded={expanded}
-        selected={selected}
-        onNodeToggle={handleToggle}
-        onNodeSelect={handleSelect}
-        multiSelect
-      >
-        <TreeItem nodeId="1" label="Transfromers">
-          {Asset.length > 0 && Asset.map((item, index) => (
-            <TreeItem key={index} onClick={e => navigateSubjectPage(e, item._id)}  nodeId={(index+1)} label={item.Name}>
-            </TreeItem>
-          ))}
-        </TreeItem>
-        <TreeItem nodeId="5" label="Documents">
-          <TreeItem nodeId="6" label="MUI" >
-            <TreeItem nodeId="7" label="src">
-              <TreeItem nodeId="8" label="index.js" />
-              <TreeItem nodeId="9" label="tree-view.js"/>
+      <Box sx={{ height: 270, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}>
+
+        <TreeView
+          aria-label="controlled"
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+          expanded={expanded}
+          selected={selected}
+          onNodeToggle={handleToggle}
+          onNodeSelect={handleSelect}
+          multiSelect
+        >
+          <TreeItem nodeId="1" label="Transfromers">
+            {Asset.length > 0 && Asset.map((item, index) => (
+              <TreeItem key={index} onClick={e => navigateSubjectPage(e, item._id)} nodeId={(index + 1)} label={item.Name}>
+              </TreeItem>
+            ))}
+          </TreeItem>
+          <TreeItem nodeId="5" label="Documents">
+            <TreeItem nodeId="6" label="MUI" >
+              <TreeItem nodeId="7" label="src">
+                <TreeItem nodeId="8" label="index.js" />
+                <TreeItem nodeId="9" label="tree-view.js" />
+              </TreeItem>
             </TreeItem>
           </TreeItem>
-        </TreeItem>
-      </TreeView>
-    </Box>
+        </TreeView>
+      </Box>
 
-     
+
     </>
   );
 }

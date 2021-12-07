@@ -5,7 +5,7 @@ import SideNav from '../components/report/tile'
 
 class AdvFilter extends React.Component {
   state = {
-    columns: ['Name','TypeCategory1','TypeCategory2', 'NameofSpecification', 'Numberofphases1', 'Numberofphases2', 'Ratedpower1','Nominalvoltage1','Nominalvoltage2','RatedInsulationlevel1','Ratedcurrent1','RatedFrequency','SI','LI','VectorGroup','Temperature','TypeofOil','TCType','TCTapNumber1','Cool'],
+    columns: ['Name','TypeCategory 1','TypeCategory2', 'NameofSpecification', 'Numberofphases1', 'Numberofphases2', 'Ratedpower1','Nominalvoltage1','Nominalvoltage2','RatedInsulationlevel1','Ratedcurrent1','RatedFrequency','SI','LI','VectorGroup','Temperature','TypeofOil','TCType','TCTapNumber1','Cool'],
     asset:[],
     supi:[]
   }
@@ -43,7 +43,7 @@ class AdvFilter extends React.Component {
     };
     return (
       <div>
-          <SideNav/>
+          {/* <SideNav/> */}
       <div className="row bg-secondary bg-opacity-10">
             <div className="col col-sm-1"></div>
             <div className="col mb-2 ">

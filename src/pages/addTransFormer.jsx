@@ -71,7 +71,11 @@ function Form() {
     const [CoollingMethod3, setCoollingMethod3] = useState('');
     const [CoollingMethod4, setCoollingMethod4] = useState('');
     const [Count, setCount] = useState('');
-
+    const [Assetowner, setAssetowner] = useState('');
+    const [Person, setPerson] = useState('');
+    const [Option, setOption] = useState('');
+    const [SelectedPerson, setSelectedPerson] = useState('');
+    
     // const {loginWithPopup,loginWithRedirect,logout,user,isAuthenticated,getAccessTokenSilently} = useAuth0()
 
     const [{ country, state }, setData] = useState({
@@ -99,7 +103,10 @@ function Form() {
         setData(data => ({ ...data, state: event.target.value }));
     }
 
-    
+    function ononPersonSelect(e){
+        setSelectedPerson(e ? e.map(item => item.value) : [] );
+
+    }   
 
     
     useEffect(() => {
@@ -107,9 +114,28 @@ function Form() {
         .then(response =>{
           console.log('Asset',response.data)
           setCount(response.data.data)
-        })
-    
+        })    
         }, [])
+
+    // useEffect(()=>{
+    //     axios.get('http://localhost:8089/person/getall')
+    //         .then(response => {
+    //             setPerson(response.data.data , () => {
+    //                 let data = [];
+    //                 Person.map((item, index) => {
+    //                     let person = {
+    //                         value: item._id,
+    //                         label: item.personName
+    //                     }
+    //                     console.log(person)
+    //                     data.push(person)
+    //                 });
+    //                 console.log(data)
+    //                 setOption(data)
+    //             })
+    //         })
+
+    // })    
 
 
     function onSubmit(e) {
@@ -121,6 +147,7 @@ function Form() {
         const newAssert = {
             Type:"Transformer",
             Name:`Tranformer ${name} `,
+            Assetowner,
             TypeCategory1,
             TypeCategory2,
             NameofSpecification,
@@ -201,6 +228,8 @@ function Form() {
         <div class="container">
                 <h1>Add Asset Details</h1>
             <form  >
+
+
                 <div class="form-group">
 
                     <label class="form-label">Type Category 1</label>

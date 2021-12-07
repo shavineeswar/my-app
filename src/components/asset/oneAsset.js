@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import './switchtab.css'
 import { useParams } from 'react-router-dom';
-import TreeS from './tressStructure'
-
-
 
 export default function OneAssetDetails(props) {
 
@@ -48,7 +44,7 @@ export default function OneAssetDetails(props) {
 
     return (
         <div>
-            
+            {Asset ?
                    
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -58,8 +54,8 @@ export default function OneAssetDetails(props) {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th scope="row" class="w-150 dark-grey-text h6">Asset Name</th>
-                                                <td><em>{Asset.Name}</em></td>
+                                                <th scope="row" class="w-150 dark-grey-text h4">Asset Name</th>
+                                                <td class="h4"><em>{Asset.Name}</em></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row" class="w-150 dark-grey-text h6">Type Category 1</th>
@@ -142,6 +138,9 @@ export default function OneAssetDetails(props) {
                                 </div >
 
                             </div>
+                            :
+                            <></>
+} 
                         </div>
                     
 
