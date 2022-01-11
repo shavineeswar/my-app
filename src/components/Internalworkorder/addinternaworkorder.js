@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios"
 import Select, { components } from 'react-select'
+import SideNav from '../navigation/sidenav'
 // import {useAuth0} from '@auth0/auth0-react'
 
 const initialState = {
@@ -77,21 +78,38 @@ class AddWorkOrder extends Component {
                 this.setState({ count: response.data.data })
             })
 
-        axios.get(`http://localhost:8089/transformertest/${this.props.match.params.id}`)
+        // axios.get(`http://localhost:8089/test/asset/${this.props.match.params.id}`)
+        //     .then(response => {
+        //         console.log('Test', response.data)
+        //         this.setState({ Test: response.data.data })
+        //     })
+
+        axios.get(`http://localhost:8089/test/asset/${this.props.match.params.id}`)
             .then(response => {
-                console.log('Test', response.data)
+                console.log('Test', response.data.data)
                 this.setState({ Test: response.data.data }, () => {
-                    this.state.Test.map((item, index) => {
-                        let test1 = item.Test1
-                        let test2 = item.Test2
-                        let test3 = item.Test3
-                        let test4 = item.Test4
-                        let test5 = item.Test5
-                        let test6 = item.Test6
-                        let test7 = item.Test7
-                        let test8 = item.Test8
-                        let test9 = item.Test9
-                        let test10 = item.Test10
+                    
+                        let test1 = response.data.data[0].assign
+                        let test2 = response.data.data[1].assign
+                        let test3 = response.data.data[2].assign
+                        let test4 = response.data.data[3].assign
+                        let test5 = response.data.data[4].assign
+                        let test6 = response.data.data[5].assign
+                        let test7 = response.data.data[6].assign
+                        let test8 = response.data.data[7].assign
+                        let test9 = response.data.data[8].assign
+                        let test10 = response.data.data[9].assign
+
+                        console.log(test1)
+                        console.log(test2)
+                        console.log(test3)
+                        console.log(test4)
+                        console.log(test5)
+                        console.log(test6)
+                        console.log(test7)
+                        console.log(test8)
+                        console.log(test9)
+                        console.log(test10)
 
                         this.setState({ Test1: test1 })
                         this.setState({ Test2: test2 })
@@ -102,9 +120,19 @@ class AddWorkOrder extends Component {
                         this.setState({ Test7: test7 })
                         this.setState({ Test8: test8 })
                         this.setState({ Test9: test9 })
-                        this.setState({ Test10: test10 })
-                    })
+                        this.setState({ Test10: test10 })                   
                 })
+
+                console.log(this.state.Test1)
+                        console.log(this.state.Test2)
+                        console.log(this.state.Test3)
+                        console.log(this.state.Test4)
+                        console.log(this.state.Test5)
+                        console.log(this.state.Test6)
+                        console.log(this.state.Test7)
+                        console.log(this.state.Test8)
+                        console.log(this.state.Test9)
+                        console.log(this.state.Test10)
             })
     }
 
@@ -132,6 +160,11 @@ class AddWorkOrder extends Component {
             // this.setState({ [e.target.name]: false })
         }
     }
+
+    checkBoxValue = (e) => {
+        
+    }
+
     onSubmit(e) {
         e.preventDefault();
 
@@ -142,10 +175,10 @@ class AddWorkOrder extends Component {
             assetId: this.props.match.params.id,
             workorderId: 'WO-' + this.state.asset.Name + '-' + (this.state.count + 1),
             department: this.state.department,
-            assetowner: this.state.assetowner,
+            assetowner: this.state.asset.Assetowner,
             person: this.state.selectPerson,
-            email: this.state.email,
-            phone: this.state.phone,
+            email: this.state.persondetail.email, 
+            phone: this.state.persondetail.phone,
             date: date,
             status: this.state.status
         }
@@ -164,7 +197,7 @@ class AddWorkOrder extends Component {
         }
 
         const mail = {
-            email: this.state.email,
+            email: this.state.persondetail.email,
             template: "externalworkorder"
         }
 
@@ -180,21 +213,21 @@ class AddWorkOrder extends Component {
                 alert(err)
             })
 
-        axios.put(`http://localhost:8089/transformertest/edit/${this.props.match.params.id}`, updateTransformertest)
+        axios.put(`http://localhost:8089/test/edit/${this.props.match.params.id}`, updateTransformertest)
             .then(response => {
-                console.log('Events successfully added');
+                console.log('Event successfully added');
             }).catch(error => {
                 console.log(error.message);
                 alert(error.message);
             })
 
-        axios.post(`http://localhost:8089/api/sendMail`, mail)
-            .then(response => {
-                console.log('mail successfully sent');
-            }).catch(error => {
-                console.log(error.message);
-                alert(error.message);
-            })
+        // axios.post(`http://localhost:8089/api/sendMail`, mail)
+        //     .then(response => {
+        //         console.log('mail successfully sent');
+        //     }).catch(error => {
+        //         console.log(error.message);
+        //         alert(error.message);
+        //     })
 
 
         // window.location = `/asset/${this.props.match.params.id}`
@@ -203,131 +236,105 @@ class AddWorkOrder extends Component {
 
     render() {
         return (
-            <div class="container">
-                <h1>Add Work Order</h1>
-                <form  >
-                    <div class="form-group row" style={{ display: "flex", border: '15px' }}>
 
-                        <label class="col-sm-2 col-form-label" >Department</label>
-                        <div class="col-sm-10" style={{paddingLeft:'22px'}} >
-                            <select id="department" class="form-select" name="department" onChange={this.onChange} >
-                                <option selected>Choose...</option>
-                                <option value="Electrical">Electrical</option>
-                                <option value="Production">Production</option>
-                                <option value="Civil">Civil</option>
-                                <option value="Chemical">Chemical</option>
-                                <option value="Mechanical">Mechanical</option>
-                            </select>
-                        </div>
-                    </div>
+            <div className="row">
+                <div class="col col-md-2"> <SideNav /> </div>
 
+                <div class="col-md-10 offset-md-2.5">
 
-                    <div class="form-group row" >
-                        <label class="col-sm-2 col-form-label" >Asset ID</label>
-                        <div class="col-sm-10">
-                            <input type="type" name="assetId" class="form-control" value={this.props.match.params.id} readOnly />
-                        </div>
-                    </div>
+                    <div class="container">
+                        <h1>Add Work Order</h1>
+                        <form  >
+                            <div class="form-group row" style={{ display: "flex", border: '15px' }}>
 
-                    <div class="form-group row" >
-                        <label class="col-sm-2 col-form-label" >Asset Owner</label>
-                        <div class="col-sm-10">
-                            <input type="type" name="assetowner" class="form-control" onChange={this.onChange} />
-                        </div>
-                    </div>
-
-
-                    <div class="form-group row" >
-                        <label class="col-sm-2 col-form-label" >Assign To</label>
-                        <div class="col-sm-10" style={{paddingLeft:'22px'}}>
-                            <Select options={this.state.option} onChange={this.onPersonSelect} isMulti />
-                        </div>
-                    </div>
-
-
-
-                    <div class="form-group row" >
-                        <label class="col-sm-2 col-form-label" >Email</label>
-                        <div class="col-sm-10">
-                        <input type="text" class="form-control" name="email" onChange={this.onChange} value={this.state.persondetail.email} readOnly />
-                        </div>
-                    </div>
-                    <div class="form-group row" >
-                        <label class="col-sm-2 col-form-label" >Phone Number</label>
-                        <div class="col-sm-10">
-                        <input type="text" class="form-control" name="phone" onChange={this.onChange} value={this.state.persondetail.phone} readOnly />
-                        </div>
-                    </div>
-
-                    <br />
-                    <br />
-                    <div>
-                        {this.state.Test.length > 0 && this.state.Test.map((item, index) => (
-                            <div key={index}>
-
-                                <div class="row">
-                                    <div class="col"><h4> Manitenance Event Name</h4></div>
-                                    <div class="col"><h4> Next Due Date</h4></div>
-                                    <div class="col"><h4> Equipment Required </h4></div>
-                                    <div class="col"><h4> Metirial Required </h4></div>
-                                    <div class="col"><h4> Remark</h4></div>
-
+                                <label class="col-sm-2 col-form-label" >Department</label>
+                                <div class="col-sm-10" style={{ paddingLeft: '22px' }} >
+                                    <select id="department" class="form-select" name="department" onChange={this.onChange} >
+                                        <option selected>Choose...</option>
+                                        <option value="Electrical">Electrical</option>
+                                        <option value="Production">Production</option>
+                                        <option value="Civil">Civil</option>
+                                        <option value="Chemical">Chemical</option>
+                                        <option value="Mechanical">Mechanical</option>
+                                    </select>
                                 </div>
-                                <div class="row">
-                                    <div class="col"><h6> Event1</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test1" value="true" defaultChecked={item.Test1} onClick={this.selectShortlistedApplicant} /></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><h6> Event2</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test2" value="true" defaultChecked={item.Test2} onClick={this.selectShortlistedApplicant} /></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><h6> Event3</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test3" value="true" defaultChecked={item.Test3} onClick={this.selectShortlistedApplicant} /></div>
-                                </div><div class="row">
-                                    <div class="col"><h6> Event4</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test4" value="true" defaultChecked={item.Test4} onClick={this.selectShortlistedApplicant} /></div>
-                                </div><div class="row">
-                                    <div class="col"><h6> Event5</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test5" value="true" defaultChecked={item.Test5} onClick={this.selectShortlistedApplicant} /></div>
-                                </div><div class="row">
-                                    <div class="col"><h6> Event6</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test6" value="true" defaultChecked={item.Test6} onClick={this.selectShortlistedApplicant} /></div>
-                                </div><div class="row">
-                                    <div class="col"><h6> Event7</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-
-                                    <div class="col"><input type="checkbox" name="Test7" value="true" defaultChecked={item.Test7} onClick={this.selectShortlistedApplicant} /></div>
-                                </div><div class="row">
-                                    <div class="col"><h6> Event8</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test8" value="true" defaultChecked={item.Test8} onClick={this.selectShortlistedApplicant} /></div>
-                                </div><div class="row">
-                                    <div class="col"><h6> Event9</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test9" value="true" defaultChecked={item.Test9} onClick={this.selectShortlistedApplicant} /></div>
-                                </div><div class="row">
-                                    <div class="col"><h6> Event10</h6></div>
-                                    <div class="col"><h6> 21-Dec-2021</h6></div>
-                                    <div class="col"><input type="checkbox" name="Test10" value="true" defaultChecked={item.Test10} onClick={this.selectShortlistedApplicant} /></div>
-                                </div>
-
                             </div>
-                        ))}
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" onClick={this.onSubmit}>Submit</button>
-                    </div>
 
-                </form>
 
+                            <div class="form-group row" >
+                                <label class="col-sm-2 col-form-label" >Asset ID</label>
+                                <div class="col-sm-10">
+                                    <input type="type" name="assetId" class="form-control" value={this.state.asset.Name} readOnly />
+                                </div>
+                            </div>
+
+                            <div class="form-group row" >
+                                <label class="col-sm-2 col-form-label" >Asset Owner</label>
+                                <div class="col-sm-10">
+                                    <input type="type" name="assetowner" class="form-control" value={this.state.asset.Assetowner} readOnly />
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row" >
+                                <label class="col-sm-2 col-form-label" >Assign To</label>
+                                <div class="col-sm-10" style={{ paddingLeft: '22px' }}>
+                                    <Select options={this.state.option} onChange={this.onPersonSelect} isMulti />
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row" >
+                                <label class="col-sm-2 col-form-label" >Email</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="email" onChange={this.onChange} value={this.state.persondetail.email} readOnly />
+                                </div>
+                            </div>
+                            <div class="form-group row" >
+                                <label class="col-sm-2 col-form-label" >Phone Number</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="phone" onChange={this.onChange} value={this.state.persondetail.phone} readOnly />
+                                </div>
+                            </div>
+
+                            <br />
+                            <br />
+                            <table striped bordered responsive hover size="md" >
+                                <thead>
+                                    <tr className='tr'>
+                                        <th className='theader th'><center>Manitenance Event Name</center></th>
+                                        <th className='theader th'><center>Next Due Date</center></th>
+                                        <th className='theader th'><center>Equipment Required</center></th>
+                                        <th className='theader th'><center>Metirial Required</center></th>
+                                        <th className='theader th'><center>Remark</center></th>
+                                        
+                                    </tr>
+                                </thead>
+                                {this.state.Test.map((item, index) => (
+                                    <tbody>
+                                        <tr className='tr'>
+                                            <td><center>{item.name}</center></td>
+                                            <td><center>{item.duedate}</center></td>
+                                            <td><center>{item.requiredEquipment}</center></td>
+                                            <td><center>{item.requiredMatirial}</center></td>
+                                            <td><center><input type="checkbox" name ={`Test${(index+1)}`} defaultChecked={item.assign} onChange={this.selectShortlistedApplicant}/></center></td>
+                                        </tr>
+                                        {/* <td><input type="checkbox" name ='Test1'  onChange={this.selectShortlistedApplicant}/></td> */}
+
+                                    </tbody>
+                                ))}
+                            </table>
+
+                            <br />
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" onClick={this.onSubmit}>Submit</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
             </div>
         );
     }

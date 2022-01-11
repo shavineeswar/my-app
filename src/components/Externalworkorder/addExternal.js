@@ -1,23 +1,26 @@
 import React, { Component } from "react";
 import axios from "axios"
 import Select, { components } from 'react-select'
+import SideNav from '../navigation/sidenav'
 
 // import {useAuth0} from '@auth0/auth0-react'
 
 const initialState = {
+    asset: [],
     assetId: '',
     department: '',
     person: [],
     date: '',
-    assetowner: '',
-    email:'',
-    phone:'',
-    company:'',
-    C_email:'',
-    c_phone:'',
+    assetowner: [],
+    email: '',
+    phone: '',
+    company: '',
+    C_email: '',
+    c_phone: '',
     option: [],
     selectPerson: [],
     Test: [],
+    persondetail: [],
     Test1: '',
     Test2: '',
     Test3: '',
@@ -27,7 +30,7 @@ const initialState = {
     Test7: '',
     Test8: '',
     Test9: '',
-    Test10: ''
+    Test10: '',
 
 }
 
@@ -38,6 +41,7 @@ class AddWorkOrder extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onPersonSelect = this.onPersonSelect.bind(this);
         this.selectShortlistedApplicant = this.selectShortlistedApplicant.bind(this);
+        this.gotoAsset = this.gotoAsset.bind(this);
         this.state = initialState;
     }
 
@@ -62,50 +66,41 @@ class AddWorkOrder extends Component {
                 })
             })
 
-        axios.get(`http://localhost:8089/transformertest/${this.props.match.params.id}`)
+        axios.get(`http://localhost:8089/asset/${this.props.match.params.id}`)
+            .then(response => {
+                console.log('asset', response.data.data)
+                this.setState({ asset: response.data.data})
+
+                    axios.get(`http://localhost:8089/internalwork/getperson/${response.data.data._id}`).then(response => {
+                      this.setState({ assetowner: response.data.data })
+                      console.log(this.state.assetowner);
+                    }).catch(error => {
+                      alert('error.message');
+                    })                
+            })
+
+        axios.get(`http://localhost:8089/test/asset/${this.props.match.params.id}`)
             .then(response => {
                 console.log('Test', response.data)
-                this.setState({ Test: response.data.data }, () => {
-                    this.state.Test.map((item, index) => {
-                        let test1 = item.Test1
-                        let test2 = item.Test2
-                        let test3 = item.Test3
-                        let test4 = item.Test4
-                        let test5 = item.Test5
-                        let test6 = item.Test6
-                        let test7 = item.Test7
-                        let test8 = item.Test8
-                        let test9 = item.Test9
-                        let test10 = item.Test10
-
-
-                        this.setState({ Test1: test1 })
-                        this.setState({ Test2: test2 })
-                        this.setState({ Test3: test3 })
-                        this.setState({ Test4: test4 })
-                        this.setState({ Test5: test5 })
-                        this.setState({ Test6: test6 })
-                        this.setState({ Test7: test7 })
-                        this.setState({ Test8: test8 })
-                        this.setState({ Test9: test9 })
-                        this.setState({ Test10: test10 })
-                    })
-                })
-                console.log(this.state.Test1)
-                console.log(this.state.Test2)
-                console.log(this.state.Test3)
-                console.log(this.state.Test4)
-                console.log(this.state.Test5)
-                console.log(this.state.Test6)
-                console.log(this.state.Test7)
-                console.log(this.state.Test8)
-                console.log(this.state.Test9)
-                console.log(this.state.Test10)
+                this.setState({ Test: response.data.data })
             })
+
+    }
+
+    gotoAsset(e){
+        e.preventDefault();
+        window.location = `/asset/${this.props.match.params.id}`
     }
 
     onPersonSelect(e) {
         this.setState({ selectPerson: e ? e.map(item => item.value) : [] });
+
+        axios.get(`http://localhost:8089/person/${e.map(item => item.value)}`)
+            .then(response => {
+                console.log(response.data.data)
+                this.setState({ persondetail: response.data.data }, () => {
+                })
+            })
     }
 
     onChange(e) {
@@ -142,17 +137,17 @@ class AddWorkOrder extends Component {
         }
 
         const mailToCompany = {
-            email:this.state.c_email,
+            email: this.state.c_email,
             template: "externalworkorder"
         }
 
         const mailToEmployee = {
-            email:this.state.email,
+            email: this.state.email,
             template: "externalworkorder"
         }
-        
+
         console.log(newWorkorder);
-      
+
 
         axios.post("http://localhost:8089/externalwork/create", newWorkorder)
             .then(response => {
@@ -162,7 +157,7 @@ class AddWorkOrder extends Component {
                 alert(err)
             })
 
-        axios.post(`http://localhost:8089/api/sendMail`,mailToEmployee )
+        axios.post(`http://localhost:8089/api/sendMail`, mailToEmployee)
             .then(response => {
                 console.log('mail successfully sent');
             }).catch(error => {
@@ -170,182 +165,155 @@ class AddWorkOrder extends Component {
                 alert(error.message);
             })
 
-        axios.post(`http://localhost:8089/api/sendMail`,mailToCompany )
+        axios.post(`http://localhost:8089/api/sendMail`, mailToCompany)
             .then(response => {
                 console.log('mail successfully sent');
             }).catch(error => {
                 console.log(error.message);
                 alert(error.message);
             })
-        
+
     }
 
 
     render() {
         return (
-            <div class="container" align='center'>
-                <h1>Add External Work Order</h1>
-                <form align='center'>
-                    <div class="form-group row" style={{display: "flex"}}>
-                        <label class="col-sm-2 col-form-label">Department</label>
-                        <div class="col-sm-10" style={{paddingLeft:'22px'}}>
-                        <select id="department" class="form-select" name="department" onChange={this.onChange} >
-                            <option selected>Choose...</option>
-                            <option value="Electrical">Electrical</option>
-                            <option value="Production">Production</option>
-                            <option value="Civil">Civil</option>
-                            <option value="Chemical">Chemical</option>
-                            <option value="Mechanical">Mechanical</option>
-                        </select>
-                        </div>
-                    </div>
+            <div className="row">
+                <div class="col col-md-2"> <SideNav /> </div>
 
-
-                    <div class="form-group row" >
-                        <label class="col-sm-2 col-form-label">Asset ID</label>
-                        <div class="col-sm-10">
-                        <input type="type" name="assetId" class="form-control" value={this.props.match.params.id} readOnly />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Asset Owner</label>
-                        <div class="col-sm-10">
-                        <input type="type" name="assetowner" class="form-control" onChange={this.onChange} />
-                        </div>
-                    </div>
-                    <br />
-                    <div class="container" align="center">
-                    <div class="row">
-                        <div class="col">
-                            <label class="col-sm-3 col-form-label">Assign To (Internal)</label>
-                            <br/>
-                            <div>
-                                <div class="col-md-9 mb-3" style={{display: "flex"}}>
-                                    <label class="col-sm-2 col-form-label">Assign To</label>
-                                    <div class="col-sm-10" style={{paddingLeft:'12px'}}>
-                                    <Select options={this.state.option} onChange={this.onPersonSelect} isMulti />
-                                    </div>
+                <div class="col-md-10 offset-md-2.5">
+                    <div class="container" align='center'>
+                        <h1>Add External Work Order</h1>
+                        <form align='center'>
+                            <div class="form-group row" style={{ display: "flex" }}>
+                                <label class="col-sm-2 col-form-label">Department</label>
+                                <div class="col-sm-10" style={{ paddingLeft: '22px' }}>
+                                    <select id="department" class="form-select" name="department" onChange={this.onChange} >
+                                        <option selected>Choose...</option>
+                                        <option value="Electrical">Electrical</option>
+                                        <option value="Production">Production</option>
+                                        <option value="Civil">Civil</option>
+                                        <option value="Chemical">Chemical</option>
+                                        <option value="Mechanical">Mechanical</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-9 mb-3" style={{display: "flex"}}>
-                                    <label class="col-sm-2 col-form-label">Email</label>
-                                    <div class="col-sm-10">
-                                    <input type="email" class="form-control"  name="email" onChange={this.onChange} />
-                                    </div>
+                            </div>
+
+
+                            <div class="form-group row" >
+                                <label class="col-sm-2 col-form-label">Asset ID</label>
+                                <div class="col-sm-10">
+                                    <input type="type" name="assetId" class="form-control" value={this.state.asset.Name} readOnly />
                                 </div>
-                                <div class="col-md-9 mb-3" style={{display: "flex"}}>
-                                    <label class="col-sm-2 col-form-label">Phone Number</label>
-                                    <div class="col-sm-10">
-                                    <input type="tel" class="form-control" name="phone"  onChange={this.onChange} />
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Asset Owner</label>
+                                <div class="col-sm-10">
+                                {this.state.assetowner.map((item1, index1) => {
+                                    return(
+                                    <input type="type" name="assetowner" class="form-control" value={item1.personName} readOnly />
+                                    )
+                                })}
+                                </div>
+                            </div>
+                            <br />
+                            <div class="container" align="center">
+                                <div class="row">
+                                    <div class="col">
+                                        <label class="col-sm-3 col-form-label">Assign To (Internal)</label>
+                                        <br />
+                                        <div>
+                                            <div class="col-md-9 mb-3" style={{ display: "flex" }}>
+                                                <label class="col-sm-2 col-form-label">Assign To</label>
+                                                <div class="col-sm-10" style={{ paddingLeft: '12px' }}>
+                                                    <Select options={this.state.option} onChange={this.onPersonSelect} isMulti />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 mb-3" style={{ display: "flex" }}>
+                                                <label class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="email" class="form-control" name="email" value={this.state.persondetail.email} readOnly/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 mb-3" style={{ display: "flex" }}>
+                                                <label class="col-sm-2 col-form-label">Phone Number</label>
+                                                <div class="col-sm-10">
+                                                    <input type="tel" class="form-control" name="phone" value={this.state.persondetail.phone} readOnly/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <label class="col-sm-3 col-form-label">Assign To (External)</label>
+                                        <br />
+                                        <div >
+                                            <div class="col-md-9 mb-3" style={{ display: "flex" }}>
+                                                <label class="col-sm-2 col-form-label">Assign To</label>
+                                                <div class="col-sm-10" >
+                                                    <input type="text" class="form-control" name="company" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 mb-3" style={{ display: "flex" }}>
+                                                <label class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="email" class="form-control" name="c_email" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 mb-3" style={{ display: "flex" }}>
+                                                <label class="col-sm-2 col-form-label">Phone Number</label>
+                                                <div class="col-sm-10">
+                                                    <input type="tel" class="form-control" name="c_phone" onChange={this.onChange} />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="col">
-                            <label class="col-sm-3 col-form-label">Assign To (External)</label>
-                            <br/>
-                            <div >
-                                <div class="col-md-9 mb-3" style={{display: "flex"}}>
-                                    <label class="col-sm-2 col-form-label">Assign To</label>
-                                    <div class="col-sm-10" >
-                                    <input type="text" class="form-control" name="company" onChange={this.onChange} />
-                                    </div>
+
+                            <br />
+                            <br />
+                            <table striped bordered responsive hover size="md" >
+                                <thead>
+                                    <tr className='tr'>
+                                        <th className='theader th'><center>Manitenance Event Name</center></th>
+                                        <th className='theader th'><center>Next Due Date</center></th>
+                                        <th className='theader th'><center>Equipment Required</center></th>
+                                        <th className='theader th'><center>Metirial Required</center></th>
+                                        <th className='theader th'><center>Remark</center></th>
+                                    </tr>
+                                </thead>
+                                {this.state.Test.map((item, index) => (
+                                    <tbody>
+
+                                        <tr className='tr'>
+                                            <td><center>{item.name} &nbsp; &nbsp;<input type="checkbox" defaultChecked={item.assign} disabled="disabled" /></center></td>
+                                            <td><center>{item.eventfrequency}</center></td>
+                                            <td><center>{item.duedate}</center></td>
+                                            <td><center>{item.requiredEquipment}</center></td>
+                                            <td><center>{item.requiredMatirial}</center></td>
+                                        </tr>
+
+
+                                    </tbody>
+                                ))}
+                            </table>
+
+                                    <br/>
+                            <div class="form-group row">
+                                <div className ='col'>
+                                <button type="submit" class="btn btn-primary" onClick={this.onSubmit}>Submit</button>
                                 </div>
-                                <div class="col-md-9 mb-3" style={{display: "flex"}}>
-                                    <label class="col-sm-2 col-form-label">Email</label>
-                                    <div class="col-sm-10">
-                                    <input type="email" class="form-control" name="c_email"  onChange={this.onChange} />
-                                    </div>
-                                </div>
-                                <div class="col-md-9 mb-3" style={{display: "flex"}}>
-                                    <label class="col-sm-2 col-form-label">Phone Number</label>
-                                    <div class="col-sm-10">
-                                    <input type="tel" class="form-control" name="c_phone"  onChange={this.onChange} />
-                                    </div>
+                                <div className='col'>
+                                <button class="btn btn-primary" onClick={this.gotoAsset}>Cancel</button>
                                 </div>
                             </div>
-                        </div>
-                        </div>
-                    </div>    
 
-                        <br />
-                        <br />
-                        <div>
-                            {this.state.Test.length > 0 && this.state.Test.map((item, index) => (
-                                <div key={index}>
-
-                                    <div class="row">
-                                        <div class="col"><h4> Manitenance Event Name</h4></div>
-                                        <div class="col"><h4> Next Due Date</h4></div>
-                                        <div class="col"><h4> Equipment Required </h4></div>
-                                        <div class="col"><h4> Metirial Required </h4></div>
-                                        <div class="col"><h4> Remark</h4></div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event1</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test1" value="true" defaultChecked={item.Test1} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event2</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test2" value="true" defaultChecked={item.Test2} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event3</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test3" value="true" defaultChecked={item.Test3} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event4</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test4" value="true" defaultChecked={item.Test4} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event5</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test5" value="true" defaultChecked={item.Test5} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event6</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test6" value="true" defaultChecked={item.Test6} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event7</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-
-                                        <div class="col"><input type="checkbox" name="Test7" value="true" defaultChecked={item.Test7} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event8</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test8" value="true" defaultChecked={item.Test8} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event9</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test9" value="true" defaultChecked={item.Test9} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><h6> Event10</h6></div>
-                                        <div class="col"><h6> 21-Dec-2021</h6></div>
-                                        <div class="col"><input type="checkbox" name="Test10" value="true" defaultChecked={item.Test10} onClick={this.selectShortlistedApplicant} /></div>
-                                    </div>
-
-                                </div>
-                            ))}
-                        </div>
-                       
-                        <div class="form-group row">
-                            <button type="submit" class="btn btn-primary" onClick={this.onSubmit}>Submit</button>
-                        </div>
-
-                </form>
-
+                        </form>
                     </div>
+                </div>
+            </div>
         );
     }
 }

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './table.css'
+import '../Internalworkorder/table.css'
 import SideNav from '../navigation/sidenav'
-import { useSortBy } from 'react-table'
-import { Modal, Button, ButtonToolbar, Table } from 'react-bootstrap'
-import Popup from './tablepopup'
+import TopNav from '../navigation/topNav'
 
 
 
@@ -13,9 +11,6 @@ class ViewSupplierItems extends Component {
     super(props);
     this.state = {
       Items: [],
-      headers: [
-        { "WorkOrder ID": 1, " Generated Date": '20-Dec-2021', 'Due Date': '20/12/2021', 'Status': "Pending" }
-      ],
       search: '',
       assetId: '',
       startdate: '',
@@ -24,10 +19,11 @@ class ViewSupplierItems extends Component {
       wid: 'workorderId',
       d1: 'date',
       status: 'status',
-      assignto:'person',
+      assignto: 'person',
       date: '05/12/2021',
-      person:[]
-
+      company:'company',
+      person: [],
+      external:[]
     }
 
     this.clear = this.clear.bind(this)
@@ -40,11 +36,10 @@ class ViewSupplierItems extends Component {
 
   componentDidMount() {
 
-    axios.get('http://localhost:8089/internalwork/getall').then(response => {
+    axios.get('http://localhost:8089/externalwork/getall').then(response => {
+        console.log(response.data.data)
       this.setState({ Items: response.data.data }, () => {
-
         response.data.data.map((person, index) => {
-
           axios.get(`http://localhost:8089/internalwork/getperson/${person.assetId}`).then(response => {
             this.setState({ person: response.data.data })
             console.log(response.data.data);
@@ -58,6 +53,14 @@ class ViewSupplierItems extends Component {
       alert('error.message');
     })
 
+    // axios.get('http://localhost:8089/externalwork/getall').then(response => {
+    //       // this.state.Items.push(response.data.data)
+    //       this.setState({ external: response.data.data })
+    //         console.log(response.data.data);
+    //       }).catch(error => {
+    //         alert('error.message');
+    //       })
+        
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
     console.log(date)
@@ -79,6 +82,7 @@ class ViewSupplierItems extends Component {
     const { search } = this.state;
     const { startdate, enddate, date } = this.state;
 
+  
     const min = new Date(startdate)
     const max = new Date(enddate)
 
@@ -96,37 +100,20 @@ class ViewSupplierItems extends Component {
     console.log(filteredByDate)
 
     const searchItems = filteredByDate.filter(item => {
-      return item.workorderId.toLowerCase().indexOf(search.toLowerCase()) !== -1
+      return item.assetId.toLowerCase().indexOf(search.toLowerCase()) !== -1
     })
 
 
     return searchItems.map((item, index) => {
       return (
         <tr clasName='tr' key={index}>
-          <td className='td'>{item.workorderId}</td>
+          <td className='td'>{item.company}</td>
           <td className='td'>{item.date}</td>
-          <td className='td'>20-Dec-2021</td>
-          {this.state.person.map((item1,index1) => {
-            return(
+          {this.state.person.map((item1, index1) => {
+            return (
               <td className='td'>{item1.personName}</td>
             )
-          })}        
-          
-          <td className='td'
-            style={{
-              fontWeight: 'bold',
-              fontSize: '0.75rem',
-              color: 'white',
-              backgroundColor: 'grey',
-              borderRadius: 8,
-              margin: '15px',
-              textAlign: 'center',
-              padding: '3px 10px',
-              display: 'inline-block',
-              backgroundColor:
-                ((item.status === 'Pending' && '#FFA500') ||
-                  (item.status === 'Completed' && 'green'))
-            }}>{item.status}</td>
+          })}
         </tr>
       )
 
@@ -180,12 +167,8 @@ class ViewSupplierItems extends Component {
     };
     return (
       <div >
-
-        <div className="row">
-          <div class="col col-md-2"> <SideNav /> </div>
-
-
-          <div class="col-md-10 offset-md-2.5">
+       
+          <div class="col-md-12 offset-md-2.5">
             <div class="container">
 
               <br />
@@ -199,7 +182,7 @@ class ViewSupplierItems extends Component {
                 <label>To</label>&nbsp;&nbsp;
                 <input type="date" placeholder="To" name='enddate' className="prompt" onChange={this.onChange} />&nbsp;&nbsp;
 
-                <button onClick={this.clear}>clear</button>
+                <button onClick={this.clear}>Clear</button>
               </div>
 
               <br />
@@ -207,11 +190,9 @@ class ViewSupplierItems extends Component {
 
                 <table className='table' id='students'>
                   <tbody className='tbody'>
-                    <th className='theader th' onClick={() => this.sortBy(this.state.wid)}>Workorder ID</th>
+                    <th className='theader th' onClick={() => this.sortBy(this.state.company)}>Company</th>
                     <th className='theader th' onClick={() => this.sortBy(this.state.d1)}>Generated Date</th>
-                    <th className='theader th' onClick={() => this.sortBy(this.state.wid)}>Due Date</th>
                     <th className='theader th' onClick={() => this.sortBy(this.state.assignto)}>Assign TO</th>
-                    <th className='theader th' onClick={() => this.sortBy(this.state.status)}>Status</th>
                     {this.renderTableData()}
                   </tbody>
                 </table>
@@ -219,7 +200,7 @@ class ViewSupplierItems extends Component {
             </div>
           </div>
         </div>
-      </div>
+     
     )
   }
 }

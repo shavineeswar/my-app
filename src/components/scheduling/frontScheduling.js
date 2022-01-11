@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState } from 'react'
-import '../Internalworkorder/table.css'
+import './scheduleTable.css'
 import axios from 'axios';
 import { Modal, Button, ButtonToolbar, Table } from 'react-bootstrap'
 import SideNav from '../navigation/sidenav'
@@ -151,7 +151,7 @@ export default function SortingTable() {
     const setEvents = (A) => {
 
         A.map((item, index) => {
-            
+
             let event1 = item.eventFrequency[0]
             let event2 = item.eventFrequency[1]
             let event3 = item.eventFrequency[2]
@@ -175,19 +175,19 @@ export default function SortingTable() {
             setEvent10(event10)
         })
     }
-    
+
     useEffect(() => {
 
         axios.get(`http://localhost:8089/schedule/${"shavineeswar.15@gmail.com"}`)
             .then(response => {
                 console.log(response.data.data)
-                setAsset(response.data.data,setEvents(response.data.data),
+                setAsset(response.data.data, setEvents(response.data.data),
                 )
-               
+
             }).catch(error => {
                 alert('error.message');
             })
-            
+
     }, []
     )
 
@@ -243,41 +243,40 @@ export default function SortingTable() {
                                                         <td >{item.AssetMain}</td>
                                                         <td >{item.AssetSub}</td>
                                                         <td>
-                                                            <tr>Event 1</tr>
-                                                            <tr>Event 2</tr>
-                                                            <tr>Event 3</tr>
-                                                            <tr>Event 4</tr>
-                                                            <tr>Event 5</tr>
-                                                            <tr>Event 6</tr>
-                                                            <tr>Event 7</tr>
-                                                            <tr>Event 8</tr>
-                                                            <tr>Event 9</tr>
-                                                            <tr>Event 10</tr>
+                                                            <tr clasName='tr'>Event 1</tr>
+                                                            <tr clasName='tr'>Event 2</tr>
+                                                            <tr clasName='tr'>Event 3</tr>
+                                                            <tr clasName='tr'>Event 4</tr>
+                                                            <tr clasName='tr'>Event 5</tr>
+                                                            <tr clasName='tr'>Event 6</tr>
+                                                            <tr clasName='tr'>Event 7</tr>
+                                                            <tr clasName='tr'>Event 8</tr>
+                                                            <tr clasName='tr'>Event 9</tr>
+                                                            <tr clasName='tr'>Event 10</tr>
                                                         </td>
-                                                        <td>
-                                                            <tr className='td'>1 Year</tr>
-                                                            <tr className='td'>1 Year</tr>
-                                                            <tr className='td'>1 Year</tr>
-                                                            <tr className='td'>6 Month </tr>
-                                                            <tr className='td'>6 Month</tr>
-                                                            <tr className='td'>1 Year</tr>
-                                                            <tr className='td'>1 Year</tr>
-                                                            <tr className='td'>6 Month</tr>
-                                                            <tr className='td'>1 Year</tr>
-                                                            <tr className='td'>1 Year</tr>
+                                                        <td>                                                            <tr>1 Year</tr>
+                                                            <tr clasName='tr'>1 Year</tr>
+                                                            <tr clasName='tr'>1 Year</tr>
+                                                            <tr clasName='tr'>6 Month </tr>
+                                                            <tr clasName='tr'>6 Month</tr>
+                                                            <tr clasName='tr'>1 Year</tr>
+                                                            <tr clasName='tr'>1 Year</tr>
+                                                            <tr clasName='tr'>6 Month</tr>
+                                                            <tr clasName='tr'>1 Year</tr>
+                                                            <tr clasName='tr'>1 Year</tr>
                                                         </td>
 
                                                         <td>
-                                                            <tr className='td'><input type='text' value={Event1} onChange={(e) => { setEvent1(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event2} onChange={(e) => { setEvent2(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event3} onChange={(e) => { setEvent3(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event4} onChange={(e) => { setEvent4(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event5} onChange={(e) => { setEvent5(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event6} onChange={(e) => { setEvent6(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event7} onChange={(e) => { setEvent7(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event8} onChange={(e) => { setEvent8(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event9} onChange={(e) => { setEvent9(e.target.value); }} /></tr>
-                                                            <tr className='td'><input type='text' value={Event10} onChange={(e) => { setEvent10(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event1} onChange={(e) => { setEvent1(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event2} onChange={(e) => { setEvent2(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event3} onChange={(e) => { setEvent3(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event4} onChange={(e) => { setEvent4(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event5} onChange={(e) => { setEvent5(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event6} onChange={(e) => { setEvent6(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event7} onChange={(e) => { setEvent7(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event8} onChange={(e) => { setEvent8(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event9} onChange={(e) => { setEvent9(e.target.value); }} /></tr>
+                                                            <tr clasName='tr'><input type='text' value={Event10} onChange={(e) => { setEvent10(e.target.value); }} /></tr>
                                                         </td>
                                                     </tr>
                                                 )

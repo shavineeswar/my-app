@@ -55,13 +55,10 @@ export default function OneAssetDetails(props) {
   )
   return (
     <div>
-
+      <h2>Asset ID:{Asset.Name}</h2>
+      <br />
       <div className="container" >
-        <h2>Asset ID:{Asset.Name}</h2>
-
-        <br />
-
-
+       
         <table striped bordered responsive hover size="md" >
           <thead>
             <tr className='tr'>
@@ -71,18 +68,15 @@ export default function OneAssetDetails(props) {
               <th className='theader th'>Assigned</th>
             </tr>
           </thead>
-          
             {Test.length > 0 && Test.map((item, index) => (
               <tbody>
-              <div key={index}>
+              
                 <tr className='tr'>
-                  <td>{item.name}</td>
-                  <td>{item.eventfrequency}</td>
-                  <td>{item.duedate}</td>
+                  <td><center>{item.name}</center></td>
+                  <td><center>{item.eventfrequency}</center></td>
+                  <td><center>{item.duedate}</center></td>
                   <td><center><input type="checkbox" defaultChecked={item.assign} disabled="disabled" /></center></td>
-                </tr>
-              </div>
-            
+                </tr>            
           </tbody>
           ))}
         </table>
@@ -113,6 +107,8 @@ export default function OneAssetDetails(props) {
           <Modal.Footer />
         </Modal>
       </ButtonToolbar>
+
+              <br/>
 
     </div>
 

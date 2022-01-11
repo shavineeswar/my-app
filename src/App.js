@@ -11,14 +11,12 @@ import Assetdirect from './components/landingpage/assetdirect'
 import Allasset from './components/alertmanagement/getAsset'
 import Alertasset from './components/alertmanagement/editalert'
 import Showalert from './components/alertmanagement/showalert'
-import WorkorderAssets from './components/Internalworkorder/getWorkOrder'
-import Workorder from './components/Internalworkorder/workOderforAsset'
+import WorkorderAssets from './pages/workorderPage'
 import AddWorkorder from './components/Internalworkorder/addinternaworkorder'
 import Blog from './components/blog/blog'
 import Addblog from './components/blog/addblog'
 import Oneblogpost from './components/blog/blogContent'
 import Tree from './components/asset/tressStructure'
-import Oneasset from './components/asset/oneAsset'
 import AssetPage from './pages/assetPage'
 import Num from './components/Internalworkorder/oneinternalworkorder'
 import Tile from './components/report/tile'
@@ -31,6 +29,11 @@ import SampleTable from './components/Table/sampleTable'
 import SampleTable2 from './components/Table/sampleTable2'
 import ScheduleFront from './components/scheduling/frontScheduling'
 import TablePopup from './components/Internalworkorder/tablepopup'
+import ExternalInfo from './components/Externalworkorder/externalDetailsFrom'
+import EditTransformer from './components/asset/editAsset'
+import GetExternalDetails from './components/Externalworkorder/getExternalWorkorder'
+
+
 // import AddProduct from './components/marketplace/product/addproduct'
 
 function App() {
@@ -66,6 +69,10 @@ function App() {
         <Route path="/sample2" component={SampleTable2} exact />
         <Route path="/tpop" component={TablePopup} exact />
         <Route path="/schedule" component={ScheduleFront} exact />
+        <Route path="/externalInfo/:id" component={ExternalInfo} exact />
+        <Route path="/edit/transformer/:id" component={EditTransformer} exact />
+        <Route path="/getExternal" component={GetExternalDetails} exact />
+        
         {/* <Route path="/addproduct" component={AddProduct} exact /> */}
           {/* <Route path="/login" component={Login} exact /> */}
           
