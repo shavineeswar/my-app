@@ -1,3 +1,4 @@
+import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './pages/login'
 import Table from './pages/maintainTable'
@@ -90,8 +91,6 @@ function App() {
           <Route path="/card" component={card} exact />
           <Route path="/user" component={Login} exact />
           </Auth0Provider>
-
-         
 
         </Switch>
       </section>
