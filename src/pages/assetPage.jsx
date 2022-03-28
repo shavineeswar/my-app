@@ -12,76 +12,17 @@ import Oneinternalworkorder from '../components/Internalworkorder/testfront'
 import TopNav from '../components/navigation/topNav'
 import { useParams } from 'react-router-dom';
 import axios from "axios"
-
-
-
-const primary = {
-  50: '#F0F7FF',
-  100: '#C2E0FF',
-  200: '#80BFFF',
-  300: '#66B2FF',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-  700: '#0059B2',
-  800: '#004C99',
-  900: '#003A75',
-};
-
-const Tab = styled(TabUnstyled)`
-  color: ${primary[100]};
-  cursor: pointer;
-  font-size: 1rem;
-  background: ${primary[500]};
-  padding: 15px 20px;
-  border: none;
-  display: flex;
-  
-  &.Mui-selected {
-    color: #fff;
-    font-weight: bold;
-  }
-
-  &:hover {
-    color: #fff;
-  }
-
-  &.${buttonUnstyledClasses.focusVisible} {
-    color: #fff;
-    outline: none;
-    background-color: ${primary[600]};
-    border-bottom: 2px solid ${primary[600]};
-  }
-
-  &.${tabUnstyledClasses.selected} {
-    border-bottom: 2px solid #fff;
-  }
-
-  &.${buttonUnstyledClasses.disabled} {
-    opacity: 0.5;
-    cursor: not-allowed;
-    box-shadow: 0 0 0 0 rgba(0, 127, 255, 0);
-  }
-`;
-
-const TabPanel = styled(TabPanelUnstyled)`
-  width: 100%;
-`;
-
-const TabsList = styled(TabsListUnstyled)`
-  background-color: ${primary[500]};
-  border-radius: 8px;
-  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.05), 0 10px 10px rgba(0, 0, 0, 0.02);
-  padding: 0 10px 0 10px;
-  margin-bottom: 10px;
-  display: flex;
-  align-content: space-between;  
-`;
+import { useEffect, useState } from 'react';
+import AssetTab from '../components/navigation/assetdetailsTab';
 
 
 export default function UnstyledTabsCustomized() {
-  const id = useParams()
 
+  const [Asset, setAsset] = useState("");
+
+  const id = useParams()
+  console.log(useParams())
+  
   const onClickAdd = () =>{
     window.location = `/drop`
   }  
@@ -102,6 +43,31 @@ const onClickDelete = () =>{
         })
 }
 
+useEffect(() => {
+  if (id.id == undefined) {
+      const parameter = 0
+
+      // axios.get(`http://localhost:9999/mysql/transformer/getOne/${0}`)
+      //     .then(response => {
+      //         console.log('Asset', response.data)
+      //         setAsset(response.data)
+      //     })
+  }
+
+  else {
+      const parameter = id
+
+      axios.get(`http://localhost:9999/mysql/transformer/getOne/${id.id}`)
+          .then(response => {
+              console.log('Asset', response.data)
+              setAsset(response.data)
+          })
+  }
+
+
+}, [])
+
+
   return (
 
     <div className="row">
@@ -113,32 +79,29 @@ const onClickDelete = () =>{
        
           <TopNav name="Asset Management"/></div>
         <div className='row'>
-          <div className="col col-lg-2 offset-md-0">
-            <div class="container">
+          <div className="col col-lg-2 ">
+            
               <br />
               <Treestruc />
             </div>
-          </div>
+        
 
           <div class="col-md-9 offset-md-2.5">
             <div class="container">
               <br/>
      
-              <button type="button" class="btn btn-outline-success" onClick={onClickAdd}>Add Asset</button>&nbsp;
-              <button type="button" class="btn btn-outline-warning" onClick={onClickEdit} >Edit Asset</button>&nbsp;
+              <button type="button" class="btn btn-outline-success" onClick={onClickAdd}>Add Asset</button>&nbsp;            
+              <button type="button" class="btn btn-outline-warning" onClick={onClickEdit} >Edit Asset</button>`&nbsp;`
               <button type="button" class="btn btn-outline-danger" onClick={onClickDelete} >Delete Asset</button>&nbsp;
               <br />
               <br/>
+              {Asset?
               <center>
-              <TabsUnstyled defaultValue={0}>
-                <TabsList>
-                  <Tab>Asset Details</Tab>
-                  <Tab>Maintenace Details</Tab>
-                </TabsList>
-                <TabPanel value={0}> <Oneasset /> </TabPanel>
-                <TabPanel value={1}> <Oneinternalworkorder /> </TabPanel>
-              </TabsUnstyled>
+              <AssetTab/>
               </center>
+              :
+              <></>
+}
             </div>
           </div>
         </div>

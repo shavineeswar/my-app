@@ -86,7 +86,7 @@ td:nth-child(n+2):nth-child(odd) {
   table {
     max-width: 1200px;
     margin: 0 auto;
-    border: 1px solid #ddd;
+    border: 1px solid rgb(231, 228, 228);
     font-family:  'Avenir', Helvetica, sans-serif;
   }
   
@@ -109,7 +109,7 @@ td:nth-child(n+2):nth-child(odd) {
   }
   
   tr:nth-child(even) {
-  background-color: #ddd;
+  background-color: rgb(250, 249, 249);
 }
   
   td {
@@ -122,7 +122,7 @@ td:nth-child(n+2):nth-child(odd) {
   
   td:nth-child(1) {
     background: transparent;
-    color: #444;
+    color: rgb(197, 194, 194);
     border-radius: 0;
   }
   

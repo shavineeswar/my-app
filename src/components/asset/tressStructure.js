@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Oneasset from '../asset/oneAsset'
 import Oneinternalworkorder from '../Internalworkorder/oneinternalworkorder'
+import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 
 
 export default function ControlledTreeView() {
@@ -42,10 +43,10 @@ export default function ControlledTreeView() {
 
   useEffect(() => {
 
-    axios.get('http://localhost:8089/asset/getall')
+    axios.get('http://localhost:9999/mysql/transformer/get')
       .then(response => {
         console.log('ALL asset', response.data)
-        setAsset(response.data.data)
+        setAsset(response.data)
       })
 
 
@@ -66,8 +67,8 @@ export default function ControlledTreeView() {
           multiSelect
         >
           <TreeItem nodeId="1" label="Transfromers">
-            {Asset.length > 0 && Asset.map((item, index) => (
-              <TreeItem key={index} onClick={e => navigateSubjectPage(e, item._id)} nodeId={(index + 1)} label={item.Name}>
+            {Asset.length > 0 && Asset.map((item, index) => (    
+              <TreeItem key={index} onClick={e => {navigateSubjectPage(e, item.transformerId)}} nodeId={(index + 1)} label ={`Tranfromers ${item.transformerId}`}>
               </TreeItem>
             ))}
           </TreeItem>

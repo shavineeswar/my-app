@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './table.css'
+import { Modal, Button, ButtonToolbar, Table } from 'react-bootstrap'
 
 
-class ViewSupplierItems extends Component {
+class WorkorderTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Items: [],
-      headers: [
-        { "WorkOrder ID": 1, " Generated Date": '20-Dec-2021', 'Status': "Pending" }
-      ],
       search: '',
       assetId: '',
       startdate: '',
@@ -22,17 +20,38 @@ class ViewSupplierItems extends Component {
       assignto: 'person',
       date: '05/12/2021',
       person: [],
-      external: []
+      external: [],
+      show: false,
+      id:''
+    }
+    this.clear = this.clear.bind(this)
+    this.handleComplete = this.handleComplete.bind(this);
 
+  }
+
+  handleComplete() {
+    
+    const workorderId = this.state.id
+    const editStatus = {
+      status: 'Completed'
     }
 
-    this.clear = this.clear.bind(this)
+    axios.put(`http://localhost:8089/internalwork/edit/${workorderId}`, editStatus)
+      .then(response => {
+        window.location = `/workorder`
+      }).catch(error => {
+        console.log(error.message);
+        alert(error.message);
+      })
+  };
 
-  }
+  handleCancel() {
+    window.location = `/workorder`
+  };
 
-  navigateSubjectPage() {
+  handleShow = () => this.setState({ show: true });
+  handleClose = () => this.setState({ show: false });
 
-  }
 
   componentDidMount() {
 
@@ -78,6 +97,17 @@ class ViewSupplierItems extends Component {
     })
   }
 
+  navigateSubjectPage(workorderId, status) {
+
+    if (status == 'Pending') {
+      // window.location = `/tpop/${workorderId}`
+      this.handleShow()
+      this.setState({id:workorderId})
+      
+
+    }
+  }
+
   renderTableData() {
 
     const { search } = this.state;
@@ -107,7 +137,7 @@ class ViewSupplierItems extends Component {
 
     return searchItems.map((item, index) => {
       return (
-        <tr clasName='tr' key={index}>
+        <tr clasName='tr' key={index} >
           <td className='td'>{item.workorderId}</td>
           <td className='td'>{item.date}</td>
           {this.state.person.map((item1, index1) => {
@@ -128,8 +158,12 @@ class ViewSupplierItems extends Component {
               display: 'block',
               backgroundColor:
                 ((item.status === 'Pending' && '#FFA500') ||
-                  (item.status === 'Completed' && 'green'))
-            }}>{item.status}</td>
+                  (item.status === 'Completed' && 'green')),
+              cursor:
+                ((item.status === 'Pending' && 'pointer') ||
+                  (item.status === 'Completed' && 'not-allowed')),
+
+            }} onClick={e => this.navigateSubjectPage(item._id, item.status)}>{item.status}</td>
         </tr>
       )
 
@@ -184,43 +218,67 @@ class ViewSupplierItems extends Component {
     return (
       <div >
 
-        
-              <div class="container">
 
-                <br />
-                <div align='left'>
-                  <input type="search" placeholder="Search Items" name='search' className="prompt" onChange={this.onChange} />
-                </div>
+        <div class="container">
 
-                <div align='right'>
-                  <label>From</label>&nbsp;&nbsp;
-                  <input type="date" placeholder="From" name='startdate' className="prompt" onChange={this.onChange} />&nbsp;&nbsp;
-                  <label>To</label>&nbsp;&nbsp;
-                  <input type="date" placeholder="To" name='enddate' className="prompt" onChange={this.onChange} />&nbsp;&nbsp;
+          <br />
+          <div align='left'>
+            <input type="search" placeholder="Search Items" name='search' className="prompt" onChange={this.onChange} />
+          </div>
 
-                  <button onClick={this.clear}>Clear</button>
-                </div>
+          <div align='right'>
+            <label>From</label>&nbsp;&nbsp;
+            <input type="date" placeholder="From" name='startdate' className="prompt" onChange={this.onChange} />&nbsp;&nbsp;
+            <label>To</label>&nbsp;&nbsp;
+            <input type="date" placeholder="To" name='enddate' className="prompt" onChange={this.onChange} />&nbsp;&nbsp;
 
-                <br />
-                <div id='tableCon'>
+            <button onClick={this.clear}>Clear</button>
+          </div>
 
-                  <table className='table' id='students'>
-                    <tbody className='tbody'>
-                      <th className='theader th' onClick={() => this.sortBy(this.state.wid)}>Workorder ID</th>
-                      <th className='theader th' onClick={() => this.sortBy(this.state.d1)}>Generated Date</th>
-                      <th className='theader th' onClick={() => this.sortBy(this.state.assignto)}>Assign TO</th>
-                      <th className='theader th' onClick={() => this.sortBy(this.state.status)}>Status</th>
-                      {this.renderTableData()}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          
-       
-      
+          <br />
+          <div id='tableCon'>
+
+            <table className='table' id='students'>
+              <tbody className='tbody'>
+                <th className='theader th' style={{ cursor: "pointer" }} onClick={() => this.sortBy(this.state.wid)}>Workorder ID</th>
+                <th className='theader th' style={{ cursor: "pointer" }} onClick={() => this.sortBy(this.state.d1)}>Generated Date</th>
+                <th className='theader th' style={{ cursor: "pointer" }} onClick={() => this.sortBy(this.state.assignto)}>Assign TO</th>
+                <th className='theader th' style={{ cursor: "pointer" }} onClick={() => this.sortBy(this.state.status)}>Status</th>
+                {this.renderTableData()}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <ButtonToolbar>
+                    {/* <Button variant="primary" onClick={this.handleShow}>
+                            Change the status of workorder
+                        </Button> */}
+
+                    <Modal show={this.state.show} onHide={this.handleClose}
+                        size="md"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered >
+                        <Modal.Header closeButton>
+                            <center><Modal.Title>&emsp;&emsp;&emsp;&emsp;Select WorkOrder Status</Modal.Title></center>
+                        </Modal.Header>
+                        <Modal.Body align="center">
+                            <Button style={{background:'green',boxShadow: "5px 5px 3px rgba(46, 46, 46, 0.62)",border:'none'}} onClick={this.handleComplete}>
+                                Completed
+                            </Button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <Button style={{background:'#FFA500',boxShadow: "5px 5px 3px rgba(46, 46, 46, 0.62)",border:'none'}} onClick={this.handleCancel}>
+                                Pending
+                            </Button></Modal.Body>
+                        <Modal.Footer />
+                    </Modal>
+                </ButtonToolbar>
+      </div>
+
+
+
     )
   }
 }
 
-export default ViewSupplierItems;
+export default WorkorderTable;

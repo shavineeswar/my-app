@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Modal, Button, ButtonToolbar, table } from 'react-bootstrap'
 import './table.css'
+import AssetTab from '../navigation/assetdetailsTab'
 
 
 export default function OneAssetDetails(props) {
@@ -12,9 +13,11 @@ export default function OneAssetDetails(props) {
   const [Test, setTest] = useState("");
   const [show, setShow] = useState(false);
   const [Asset, setAsset] = useState("");
+  
 
 
   const id = useParams()
+  console.log(id)
 
   const handleInternal = () => {
     navigateInternalworkorderPage(id.id)
@@ -40,23 +43,41 @@ export default function OneAssetDetails(props) {
 
   useEffect(() => {
 
-    axios.get(`http://localhost:8089/asset/${id.id}`)
-      .then(response => {
-        console.log('Asset', response.data)
-        setAsset(response.data.data)
-      })
+    if (id.id == undefined) {
+      const parameter = 0
+
+      axios.get(`http://localhost:9999/mysql/transformer/getOne/${0}`)
+          .then(response => {
+              console.log('Asset', response.data)
+              setAsset(response.data)
+          })
+  }
+
+  else {
+      const parameter = id
+
+      axios.get(`http://localhost:9999/mysql/transformer/getOne/${id.id}`)
+          .then(response => {
+              console.log('Asset', response.data)
+              setAsset(response.data)
+          })
+    }
 
     axios.get(`http://localhost:8089/test/asset/${id.id}`)
       .then(response => {
-        console.log('Test', response.data)
+        console.log('Test', response.data)       
         setTest(response.data.data)
+        response.data.data.map((item,index) => {
+
+        })
       })
   }, []
 
   )
   return (
     <div>
-      <h2>Asset ID:{Asset.Name}</h2>
+      {/* <AssetTab/> */}
+      <h2>Asset ID:{`Transformer ${Asset.transformerId}`}</h2>
       <br />
       <div className="container" >
        
@@ -81,9 +102,6 @@ export default function OneAssetDetails(props) {
           </tbody>
           ))}
         </table>
-
-
-
       </div>
       <br />
       <ButtonToolbar>

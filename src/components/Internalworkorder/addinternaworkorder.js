@@ -65,10 +65,10 @@ class AddWorkOrder extends Component {
                 })
             })
 
-        axios.get(`http://localhost:8089/asset/${this.props.match.params.id}`)
+        axios.get(`http://localhost:9999/mysql/transformer/getOne/${this.props.match.params.id}`)
             .then(response => {
-                console.log('asset', response.data.data)
-                this.setState({ asset: response.data.data })
+                console.log('asset', response.data)
+                this.setState({ asset: response.data[0]})
             })
 
 
@@ -173,7 +173,7 @@ class AddWorkOrder extends Component {
 
         const newWorkorder = {
             assetId: this.props.match.params.id,
-            workorderId: 'WO-' + this.state.asset.Name + '-' + (this.state.count + 1),
+            workorderId: 'WO-Transformer' + this.state.asset.transformerId + '-' + (this.state.count + 1),
             department: this.state.department,
             assetowner: this.state.asset.Assetowner,
             person: this.state.selectPerson,
@@ -264,7 +264,7 @@ class AddWorkOrder extends Component {
                             <div class="form-group row" >
                                 <label class="col-sm-2 col-form-label" >Asset ID</label>
                                 <div class="col-sm-10">
-                                    <input type="type" name="assetId" class="form-control" value={this.state.asset.Name} readOnly />
+                                    <input type="type" name="assetId" class="form-control" value={this.props.match.params.id} readOnly />
                                 </div>
                             </div>
 
